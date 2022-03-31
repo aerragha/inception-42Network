@@ -1,0 +1,19 @@
+version: "3.9"
+services: 
+  nginx:
+    build: .
+    conatiner_name: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "./website:/var/www/html"
+    depends_on:
+      - wordpress
+    restart: always
+    networks:
+      - wordpress
+
+networks:
+  frontend:
+  backend:
