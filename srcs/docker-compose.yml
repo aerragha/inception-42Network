@@ -1,5 +1,5 @@
 version: "3.7"
-services: 
+services:
   nginx:
     build: requirements/nginx/
     container_name: nginx
@@ -7,12 +7,35 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - "/Users/aerragha/website:/var/www/html"
+      - "/home/aerragha/data/website:/var/www/html"
     # depends_on:
     #   - wordpress
     restart: always
     networks:
       - docker-network
-
+  wordpress:
+    build: requirements/wordpress/
+    container_name: wordpress
+    ports:
+      - "9000:9000"
+    volumes:
+      - "/home/aerragha/data/website:/var/www/html"
+    depends_on:
+      - mariadb
+    networks:
+      - docker-network
+    restart: always
+    # environment:
+  mariadb:
+    build: requirements/mariadb/
+    container_name: mariadb
+    ports:
+      - "3306:3306"
+    volumes:
+      - "/home/aerragha/data/mariadb:/var/lib/mysql"
+    networks:
+      - docker-network
+    restart: always
+    # environment:
 networks:
   docker-network:
