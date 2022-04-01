@@ -1,7 +1,7 @@
 version: "3.9"
 services: 
   nginx:
-    build: .
+    build: requirements/nginx/
     conatiner_name: nginx
     ports:
       - "80:80"
@@ -12,8 +12,7 @@ services:
       - wordpress
     restart: always
     networks:
-      - wordpress
+      - docker-network
 
 networks:
-  frontend:
-  backend:
+  docker-network:
