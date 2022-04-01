@@ -1,15 +1,15 @@
-version: "3.9"
+version: "3.7"
 services: 
   nginx:
     build: requirements/nginx/
-    conatiner_name: nginx
+    container_name: nginx
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - "./website:/var/www/html"
-    depends_on:
-      - wordpress
+      - "/Users/aerragha/website:/var/www/html"
+    # depends_on:
+    #   - wordpress
     restart: always
     networks:
       - docker-network
