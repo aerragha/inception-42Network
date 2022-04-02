@@ -1,18 +1,18 @@
 version: "3.7"
 services:
-  # nginx:
-  #   build: requirements/nginx/
-  #   container_name: nginx
-  #   ports:
-  #     - "80:80"
-  #     - "443:443"
-  #   volumes:
-  #     - "/home/aerragha/data/website:/var/www/html"
-  #   depends_on:
-  #     - wordpress
-  #   restart: always
-  #   networks:
-  #     - docker-network
+  nginx:
+    build: requirements/nginx/
+    container_name: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "/home/aerragha/data/website:/var/www/html"
+    depends_on:
+      - wordpress
+    restart: always
+    networks:
+      - docker-network
   # wordpress:
   #   build: requirements/wordpress/
   #   container_name: wordpress
@@ -35,6 +35,11 @@ services:
     networks:
       - docker-network
     restart: always
-    # environment:
+    environment:
+      MYSQL_ROOT: ${MYSQL_ROOT}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
 networks:
   docker-network:
