@@ -4,6 +4,6 @@ RUN apk update && apk upgrade && apk add mariadb mariadb-client openrc
 RUN openrc && touch /run/openrc/softlevel
 
 # COPY ./conf/data.sql .
-COPY ./tools/run.sh .
+COPY ./tools/script.sh .
 
-ENTRYPOINT ["sh", "run.sh"]
+ENTRYPOINT ["sh", "script.sh"]

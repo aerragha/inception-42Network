@@ -22,4 +22,6 @@ then
 fi
 rc-service mariadb start
 rc-service mariadb stop
+
+# Stay in the foreground 
 /usr/bin/mariadbd --basedir=/usr --datadir=/var/lib/mysql --plugin-dir=/usr/lib/mariadb/plugin --user=mysql --pid-file=/run/mysqld/mariadb.pid

@@ -13,18 +13,7 @@ services:
     restart: always
     networks:
       - docker-network
-  # wordpress:
-  #   build: requirements/wordpress/
-  #   container_name: wordpress
-  #   ports:
-  #     - "9000:9000"
-  #   volumes:
-  #     - "/home/aerragha/data/website:/var/www/html"
-  #   depends_on:
-  #     - mariadb
-  #   networks:
-  #     - docker-network
-  #   restart: always
+  
   mariadb:
     build: requirements/mariadb/
     container_name: mariadb
@@ -41,5 +30,25 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+
+  wordpress:
+    build: requirements/wordpress/
+    container_name: wordpress
+    ports:
+      - "9000:9000"
+    volumes:
+      - "/home/aerragha/data/website:/var/www/html"
+    depends_on:
+      - mariadb
+    networks:
+      - docker-network
+    restart: always
+    environment:
+      DB_HOST: ${DB_HOST}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+  
+  
 networks:
   docker-network:
