@@ -8,19 +8,22 @@ then
 	/etc/init.d/mariadb setup
 	/etc/init.d/mariadb start
 
-	# mysql -u ${MYSQL_ROOT} < data.sql
-	# rm data.sql
+	mysql -u ${MYSQL_ROOT} < database.sql
+
+	# User with privileges to all databases
 	mysql -u ${MYSQL_ROOT} -e "CREATE USER '${MYSQL_USER}'@'localhost' IDENTIFIED BY '${MYSQL_PASSWORD}';"
 	mysql -u ${MYSQL_ROOT} -e "GRANT ALL PRIVILEGES ON *.* TO '${MYSQL_USER}'@'localhost' IDENTIFIED BY '${MYSQL_PASSWORD}';"
 
+	# User with privileges to wordpress databases
 	mysql -u ${MYSQL_ROOT} -e "CREATE USER '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';"
 	mysql -u ${MYSQL_ROOT} -e "GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';"
 
-	mysql -u ${MYSQL_ROOT} -e "ALTER USER '${MYSQL_USER}'@'localhost' IDENTIFIED BY '${MYSQL_PASSWORD}';"
-	mysql -u ${MYSQL_ROOT} -e "ALTER USER '${MYSQL_ROOT}'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';"
-	sed -i 's/skip-networking/# skip-networking/g' /etc/my.cnf.d/mariadb-server.cnf
+	# Flush privileges will reloads the grant tables in the mysql database enabling the changes to take effect without reloading or restarting mysql service.
+	mysql -u ${MYSQL_ROOT} -e "FLUSH PRIVILEGES;"
 fi
-rc-service mariadb start
+
+sed -i 's/skip-networking/# skip-networking/g' /etc/my.cnf.d/mariadb-server.cnf
+rc-service mariadb restart
 rc-service mariadb stop
 
 # Stay in the foreground 

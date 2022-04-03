@@ -1,6 +1,6 @@
 FROM alpine:3.15
 
-RUN apk update && apk upgrade && apk add wget \
+RUN apk update && apk upgrade && apk add wget openrc \
     php7-common \
     php7-iconv \
     php7-json \
@@ -29,13 +29,20 @@ RUN apk update && apk upgrade && apk add wget \
     php7-zlib \
     php7-redis
 
-RUN mkdir -p /var/www && cd /var/www && wget http://wordpress.org/latest.tar.gz -P /var/www && tar -xzvf latest.tar.gz && rm latest.tar.gz && mv wordpress html
 
-COPY ./conf/wp-config.php /var/www/html/wordpress/wp-config.php
+RUN wget https://wordpress.org/latest.tar.gz
+RUN tar xvf latest.tar.gz
+RUN rm latest.tar.gz
+
+# RUN mkdir -p /var/www && cd /var/www && wget http://wordpress.org/latest.tar.gz -P /var/www && tar -xzvf latest.tar.gz && rm latest.tar.gz && mv wordpress html
+
+COPY conf/wp-config.php /wordpress/wp-config.php
 COPY ./conf/www.conf /etc/php7/php-fpm.d/www.conf
 
+RUN openrc
+RUN touch /run/openrc/softlevel
 
-# COPY ./tools/script.sh .
+COPY ./tools/script.sh .
+RUN chmod +x /script.sh
 
-ENTRYPOINT ["php-fpm7", "-FR"]
-
+ENTRYPOINT ["sh", "script.sh"]
