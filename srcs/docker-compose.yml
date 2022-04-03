@@ -7,7 +7,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - "/home/aerragha/data/website:/var/www/html"
+      - "/home/aerragha/data/website:/var/www/html/wordpress"
     depends_on:
       - wordpress
     restart: always
@@ -24,12 +24,8 @@ services:
     networks:
       - docker-network
     restart: always
-    environment:
-      MYSQL_ROOT: ${MYSQL_ROOT}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    env_file:
+      - .env
 
   wordpress:
     build: requirements/wordpress/
@@ -37,17 +33,14 @@ services:
     ports:
       - "9000:9000"
     volumes:
-      - "/home/aerragha/data/website:/var/www/html"
+      - "/home/aerragha/data/website:/var/www/html/wordpress"
     depends_on:
       - mariadb
     networks:
       - docker-network
     restart: always
-    environment:
-      DB_HOST: ${DB_HOST}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    env_file:
+      - .env
   
   
 networks:
