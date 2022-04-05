@@ -1,77 +1,77 @@
 version: "3.7"
 services:
-  # mariadb:
-  #   build: requirements/mariadb/
-  #   image: mariadb
-  #   container_name: mariadb
-  #   ports:
-  #     - "3306:3306"
-  #   volumes:
-  #     - "/home/aerragha/data/mariadb:/var/lib/mysql"
-  #   networks:
-  #     - docker-network
-  #   restart: always
-  #   env_file:
-  #     - .env
+  mariadb:
+    build: requirements/mariadb/
+    image: mariadb
+    container_name: mariadb
+    ports:
+      - "3306:3306"
+    volumes:
+      - "/home/aerragha/data/mariadb:/var/lib/mysql"
+    networks:
+      - docker-network
+    restart: always
+    env_file:
+      - .env
 
-  # wordpress:
-  #   build: requirements/wordpress/
-  #   image: wordpress
-  #   container_name: wordpress
-  #   ports:
-  #     - "9000:9000"
-  #   volumes:
-  #     - "/home/aerragha/data/website:/var/www/html/wordpress"
-  #   depends_on:
-  #     - mariadb
-  #   networks:
-  #     - docker-network
-  #   restart: always
-  #   env_file:
-  #     - .env
+  wordpress:
+    build: requirements/wordpress/
+    image: wordpress
+    container_name: wordpress
+    ports:
+      - "9000:9000"
+    volumes:
+      - "/home/aerragha/data/website:/var/www/html/wordpress"
+    depends_on:
+      - mariadb
+    networks:
+      - docker-network
+    restart: always
+    env_file:
+      - .env
 
-  # nginx:
-  #   build: requirements/nginx/
-  #   image: nginx
-  #   container_name: nginx
-  #   ports:
-  #     - "80:80"
-  #     - "443:443"
-  #   volumes:
-  #     - "/home/aerragha/data/website:/var/www/html/wordpress"
-  #   depends_on:
-  #     - wordpress
-  #   restart: always
-  #   networks:
-  #     - docker-network
-  #   env_file:
-  #     - .env
+  nginx:
+    build: requirements/nginx/
+    image: nginx
+    container_name: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "/home/aerragha/data/website:/var/www/html/wordpress"
+    depends_on:
+      - wordpress
+    restart: always
+    networks:
+      - docker-network
+    env_file:
+      - .env
 
-  # adminer:
-  #   build: requirements/bonus/adminer/
-  #   image: adminer
-  #   container_name: adminer
-  #   ports:
-  #     - 8080:8080
-  #   depends_on:
-  #     - nginx
-  #   networks:
-  #     - docker-network
-  #   restart: always
+  adminer:
+    build: requirements/bonus/adminer/
+    image: adminer
+    container_name: adminer
+    ports:
+      - 8080:8080
+    depends_on:
+      - nginx
+    networks:
+      - docker-network
+    restart: always
 
-  # redis:
-  #   build: requirements/bonus/redis/
-  #   image: redis
-  #   container_name: redis
-  #   ports:
-  #     - 6379:6379
-  #   depends_on:
-  #     - nginx
-  #   networks:
-  #     - docker-network
-  #   restart: always
-  #   env_file:
-  #     - .env
+  redis:
+    build: requirements/bonus/redis/
+    image: redis
+    container_name: redis
+    ports:
+      - 6379:6379
+    depends_on:
+      - nginx
+    networks:
+      - docker-network
+    restart: always
+    env_file:
+      - .env
 
    website:
     container_name: website
