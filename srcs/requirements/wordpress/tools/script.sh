@@ -14,7 +14,7 @@ sed -i 's|NONCE__SALT|'${NONCE__SALT}'|g' /wordpress/wp-config.php
 cp -r /wordpress/* /var/www/html/wordpress/
 
 # Copy wordpress files to the volume
-cp -r redis-cache/ /wordpress/wp-content/plugins/
+cp -r redis-cache/ /var/www/html/wordpress/wp-content/plugins/
 
 # Force to stay in foreground 
 php-fpm7 -F -R
