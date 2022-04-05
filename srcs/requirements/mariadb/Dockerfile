@@ -8,6 +8,5 @@ RUN touch /run/openrc/softlevel
 COPY ./conf/database.sql .
 
 COPY ./tools/script.sh .
-RUN chmod +x /script.sh
 
 ENTRYPOINT ["sh", "script.sh"]

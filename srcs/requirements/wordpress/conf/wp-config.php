@@ -37,6 +37,13 @@ define( 'DB_CHARSET', 'utf8' );
 /** The database collate type. Don't change this if in doubt. */
 define( 'DB_COLLATE', '' );
 
+/** Cache config */
+define('NONCE_SALT', 'NONCE__SALT');
+define('WP_REDIS_HOST', 'REDIS__HOST');
+define('WP_CACHE_KEY_SALT', 'DOMAIN_NAME');
+define('WP_CACHE', true);
+
+
 /**#@+
  * Authentication unique keys and salts.
  *

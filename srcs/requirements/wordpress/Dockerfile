@@ -1,6 +1,6 @@
 FROM alpine:3.15
 
-RUN apk update && apk upgrade && apk add wget openrc \
+RUN apk update && apk upgrade && apk add wget openrc unzip \
     php7-common \
     php7-iconv \
     php7-json \
@@ -30,19 +30,25 @@ RUN apk update && apk upgrade && apk add wget openrc \
     php7-redis
 
 
+# Download wordpress
 RUN wget https://wordpress.org/latest.tar.gz
 RUN tar xvf latest.tar.gz
 RUN rm latest.tar.gz
 
-# RUN mkdir -p /var/www && cd /var/www && wget http://wordpress.org/latest.tar.gz -P /var/www && tar -xzvf latest.tar.gz && rm latest.tar.gz && mv wordpress html
+# Download Redis Object Cache plugin
+RUN wget https://downloads.wordpress.org/plugin/redis-cache.2.0.23.zip
+RUN unzip redis-cache.2.0.23.zip
+RUN rm -rf redis-cache.2.0.23.zip
 
 COPY conf/wp-config.php /wordpress/wp-config.php
 COPY ./conf/www.conf /etc/php7/php-fpm.d/www.conf
+
+# For cash part
+COPY conf/object-cache.php /wordpress/wp-content/object-cache.php
 
 RUN openrc
 RUN touch /run/openrc/softlevel
 
 COPY ./tools/script.sh .
-RUN chmod +x /script.sh
 
 ENTRYPOINT ["sh", "script.sh"]

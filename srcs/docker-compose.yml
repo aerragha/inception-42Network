@@ -58,6 +58,20 @@ services:
     networks:
       - docker-network
     restart: always
+
+  redis:
+    build: requirements/bonus/redis/
+    image: redis
+    container_name: redis
+    ports:
+      - 6379:6379
+    depends_on:
+      - nginx
+    networks:
+      - docker-network
+    restart: always
+    env_file:
+      - .env
   
 networks:
   docker-network:
