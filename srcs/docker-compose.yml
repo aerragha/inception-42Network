@@ -73,7 +73,7 @@ services:
     env_file:
       - .env
 
-   website:
+  website:
     container_name: website
     build: requirements/bonus/website/
     image: website
@@ -82,6 +82,22 @@ services:
     ports:
       - "3001:3001"
     restart: always
+  
+  ftp-server:
+    build: requirements/bonus/ftp-server/
+    image: ftp-server
+    container_name: ftp-server
+    volumes:
+      - /home/aerragha/data/website:/home/aerragha
+    ports:
+      - "21:21" # For commands
+      - "20:20" # For data 
+      - "40000-50000:40000-50000"
+    networks:
+      - docker-network
+    restart: always
+    env_file:
+      - .env
   
 networks:
   docker-network:
