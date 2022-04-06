@@ -29,4 +29,4 @@ fclean: clean
 	@ cd $(SRC) docker volume prune
 
 purge: fclean
-	@ rm -Rf ~/data/;
+	@ rm -rf /home/aerragha/data/*;

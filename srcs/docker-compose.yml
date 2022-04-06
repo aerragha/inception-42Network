@@ -7,7 +7,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - "/home/aerragha/data/mariadb:/var/lib/mysql"
+      - "data-vol:/var/lib/mysql"
     networks:
       - docker-network
     restart: always
@@ -21,7 +21,7 @@ services:
     ports:
       - "9000:9000"
     volumes:
-      - "/home/aerragha/data/website:/var/www/html/wordpress"
+      - "web-vol:/var/www/html/wordpress"
     depends_on:
       - mariadb
     networks:
@@ -35,10 +35,9 @@ services:
     image: nginx
     container_name: nginx
     ports:
-      - "80:80"
       - "443:443"
     volumes:
-      - "/home/aerragha/data/website:/var/www/html/wordpress"
+      - "web-vol:/var/www/html/wordpress"
     depends_on:
       - wordpress
     restart: always
@@ -88,7 +87,7 @@ services:
     image: ftp-server
     container_name: ftp-server
     volumes:
-      - /home/aerragha/data/website:/home/aerragha
+      - web-vol:/home/aerragha
     ports:
       - "21:21" # For commands
       - "20:20" # For data
@@ -113,3 +112,15 @@ services:
   
 networks:
   docker-network:
+
+volumes:
+  data-vol:
+    driver_opts:
+      type: none
+      device: /home/aerragha/data/mariadb
+      o: bind
+  web-vol:
+    driver_opts:
+      type: none
+      device: /home/aerragha/data/website
+      o: bind
