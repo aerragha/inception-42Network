@@ -91,10 +91,22 @@ services:
       - /home/aerragha/data/website:/home/aerragha
     ports:
       - "21:21" # For commands
-      - "20:20" # For data 
+      - "20:20" # For data
       - "1024-1048:1024-1048"
     networks:
       - docker-network
+    restart: always
+    env_file:
+      - .env
+
+  cadvisor:
+    build: requirements/bonus/cadvisor
+    image: cadvisor
+    container_name: cadvisor
+    ports:
+      - "7000:7000"
+    networks:
+        - docker-network
     restart: always
     env_file:
       - .env
