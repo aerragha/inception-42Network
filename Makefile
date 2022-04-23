@@ -6,8 +6,8 @@ SRC = ./srcs/
 all: fclean setup
 
 folders:
-	@ sudo -u aerragha mkdir -p /Users/aerragha/goinfre/data/mariadb
-	@ sudo -u aerragha mkdir -p /Users/aerragha/goinfre/data/website
+	@ mkdir -p /Users/aerragha/goinfre/data/mariadb
+	@ mkdir -p /Users/aerragha/goinfre/data/website
 
 setup:
 	@ cd $(SRC) && docker-compose up -d --build
