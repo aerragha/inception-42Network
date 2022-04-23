@@ -5,6 +5,10 @@ SRC = ./srcs/
 
 all: fclean setup
 
+folders:
+	@ sudo -u aerragha mkdir -p /Users/aerragha/goinfre/data/mariadb
+	@ sudo -u aerragha mkdir -p /Users/aerragha/goinfre/data/website
+
 setup:
 	@ cd $(SRC) && docker-compose up -d --build
 
@@ -29,4 +33,4 @@ fclean: clean
 	@ cd $(SRC) docker volume prune
 
 purge: fclean
-	@ rm -rf /home/aerragha/data/*;
+	@ rm -rf /Users/aerragha/goinfre/data/*;

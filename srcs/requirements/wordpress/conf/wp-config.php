@@ -42,6 +42,8 @@ define('NONCE_SALT', 'NONCE__SALT');
 define('WP_REDIS_HOST', 'REDIS__HOST');
 define('WP_CACHE_KEY_SALT', 'DOMAIN_NAME');
 define('WP_CACHE', true);
+define('ENABLE_CACHE', TRUE);
+define( 'FS_METHOD', 'direct' );
 
 
 /**#@+

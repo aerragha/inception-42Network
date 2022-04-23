@@ -46,6 +46,21 @@ services:
     env_file:
       - .env
 
+  ftp-server:
+    build: requirements/bonus/ftp-server/
+    image: ftp-server
+    container_name: ftp-server
+    volumes:
+      - web-vol:/home/${FTP_SERVER_USER}
+    ports:
+      - "21:21"
+      - "1024-1048:1024-1048"
+    networks:
+      - docker-network
+    restart: always
+    env_file:
+      - .env
+
   adminer:
     build: requirements/bonus/adminer/
     image: adminer
@@ -82,22 +97,6 @@ services:
       - "3001:3001"
     restart: always
   
-  ftp-server:
-    build: requirements/bonus/ftp-server/
-    image: ftp-server
-    container_name: ftp-server
-    volumes:
-      - web-vol:/home/aerragha
-    ports:
-      - "21:21" # For commands
-      - "20:20" # For data
-      - "1024-1048:1024-1048"
-    networks:
-      - docker-network
-    restart: always
-    env_file:
-      - .env
-
   cadvisor:
     build: requirements/bonus/cadvisor
     image: cadvisor
@@ -117,10 +116,10 @@ volumes:
   data-vol:
     driver_opts:
       type: none
-      device: /home/aerragha/data/mariadb
+      device: /Users/aerragha/goinfre/data/mariadb
       o: bind
   web-vol:
     driver_opts:
       type: none
-      device: /home/aerragha/data/website
+      device: /Users/aerragha/goinfre/data/website
       o: bind
